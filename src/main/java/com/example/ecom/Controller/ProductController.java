@@ -1,6 +1,10 @@
 package com.example.ecom.Controller;
 
+import java.io.FileNotFoundException;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResourceAccessException;
 
+import com.example.ecom.JavaToXML;
 import com.example.ecom.JsonToJavaObject;
 import com.example.ecom.Models.Product;
 import com.example.ecom.Repository.ProductRepository;
@@ -32,6 +37,17 @@ public class ProductController {
     @PostMapping("/addProduct")
     public Product addProduct(@RequestBody String product) {
 		Product p = JsonToJavaObject.JsonToJavaObject(product);
+		
+		//Creating the Xml File for adding a Single Product
+		 try {
+				JavaToXML.convertObjectToXML(p);
+			} catch (FileNotFoundException e) {
+				
+				e.printStackTrace();
+			} catch (JAXBException e) {
+				
+				e.printStackTrace();
+			}
         return service.saveProduct(p);
     }
 
@@ -50,6 +66,7 @@ public class ProductController {
         return productById;
     }
 
+    
    
 
     @PutMapping("/update")

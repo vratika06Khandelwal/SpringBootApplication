@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Product>
+    <id>199</id>
+    <name>vratika1</name>
+    <description>this is my name </description>
+    <price>1</price>
+
+    <id>200</id>
+    <name>vratika2</name>
+    <description>this is my name </description>
+    <price>1</price>
+
+
+    <id>201</id>
+    <name>vratika3</name>
+    <description>this is my name </description>
+    <price>1</price>
+</Product>
+
