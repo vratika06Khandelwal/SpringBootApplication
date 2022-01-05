@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResourceAccessException;
 
+import com.example.ecom.JsonToJavaObject;
 import com.example.ecom.Models.Product;
 import com.example.ecom.Repository.ProductRepository;
 import com.example.ecom.Service.ProductService;
+import com.google.gson.Gson;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,36 +27,40 @@ public class ProductController {
 
     @Autowired
     private ProductService service;
+    private Gson gson ;
 
     @PostMapping("/addProduct")
-    public Product addProduct(@RequestBody Product product) {
-        return service.saveProduct(product);
+    public Product addProduct(@RequestBody String product) {
+		Product p = JsonToJavaObject.JsonToJavaObject(product);
+        return service.saveProduct(p);
     }
 
     @PostMapping("/addProducts")
-    public List<Product> addProducts(@RequestBody List<Product> products) {
-        return service.saveProducts(products);
+    public List<Product> addProducts(@RequestBody String products) {
+        List<Product> p = (List<Product>) JsonToJavaObject.JsonToJavaList(products);
+        return service.saveProducts(p);
     }
 
-    @GetMapping("/products")
-    public List<Product> findAllProducts() {
-        return service.getProducts();
-    }
 
+  
+     
     @GetMapping("/productById/{id}")
-    public Product findProductById(@PathVariable int id) {
-        return service.getProductById(id);
+    public String findProductById(@PathVariable int id) {
+    	String productById=gson.toJson(service.getProductById(id));
+        return productById;
     }
 
    
 
     @PutMapping("/update")
-    public Product updateProduct(@RequestBody Product product) {
-        return service.updateProduct(product);
+    public Product updateProduct(@RequestBody String product) {
+    	 Product p = JsonToJavaObject.JsonToJavaObject(product);
+        return service.updateProduct(p);
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteProduct(@PathVariable int id) {
-        return service.deleteProduct(id);
+    	String deleteProduct=gson.toJson(service.deleteProduct(id));
+        return deleteProduct;
     }
 }
